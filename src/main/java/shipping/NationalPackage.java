@@ -21,11 +21,6 @@ public class NationalPackage implements Transportable {
     }
 
     @Override
-    public String getDestinationCountry() {
-        return Transportable.super.getDestinationCountry();
-    }
-
-    @Override
     public int getWeight() {
         return weight;
     }

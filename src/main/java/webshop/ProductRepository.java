@@ -26,8 +26,15 @@ public class ProductRepository {
             statement.setInt(3, stock);
             return statement;
         }, holder);
+        return getKeyHolder(holder);
+    }
 
-        return holder.getKey().longValue();
+    private long getKeyHolder(KeyHolder holder) {
+        try {
+            return holder.getKey().longValue();
+        } catch (NullPointerException npe) {
+            throw new IllegalArgumentException("Cannot insert!");
+        }
     }
 
     public Product findProductById(long id) {
@@ -47,8 +54,12 @@ public class ProductRepository {
     }
 
     private int getActualProductStock(long id) {
-        return jdbcTemplate.queryForObject("SELECT stock FROM products WHERE id = ?",
-                (rs, rowNum) -> rs.getInt("stock"),
-                id);
+        try {
+            return jdbcTemplate.queryForObject("SELECT stock FROM products WHERE id = ?",
+                    (rs, rowNum) -> rs.getInt("stock"),
+                    id);
+        } catch (NullPointerException nfe) {
+            throw new IllegalArgumentException("Cannot find product with id: " + id);
+        }
     }
 }
