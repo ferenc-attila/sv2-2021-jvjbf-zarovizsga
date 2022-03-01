@@ -12,7 +12,7 @@ public class SentenceTransformer {
         if (words.length < 5) {
             return sentence;
         }
-        return words[0] + " ... " + words[words.length - 1];
+        return String.join("",words[0], " ... ", words[words.length - 1]);
     }
 
     private void validateSentence(String sentence) {

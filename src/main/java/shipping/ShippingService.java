@@ -34,11 +34,10 @@ public class ShippingService {
     }
 
     public List<Transportable> sortInternationalPackagesByDistance() {
-        return packages.stream()
-                .filter(transportable -> !"Hungary".equals(transportable.getDestinationCountry()))
-                .map(transportable -> (InternationalPackage) (transportable))
+        return new ArrayList<>(packages.stream()
+                .filter(transportable -> !Transportable.HOME_COUNTRY.equals(transportable.getDestinationCountry()))
+                .map(InternationalPackage.class::cast)
                 .sorted(Comparator.comparingInt(InternationalPackage::getDistance))
-                .map(internationalPackage -> (Transportable) (internationalPackage))
-                .toList();
+                .toList());
     }
 }
